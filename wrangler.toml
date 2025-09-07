@@ -1,0 +1,11 @@
+name = "cards2"
+compatibility_date = "2024-12-01"
+
+[env.production]
+name = "cards2"
+
+[env.preview]
+name = "cards2-preview"
+
+# Настройки для Pages
+pages_build_output_dir = "out"
