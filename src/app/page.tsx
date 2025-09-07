@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import ProductCard from '@/components/ProductCard';
+import PrismaticBurst from '@/components/PrismaticBurst';
 import { products, categories } from '@/data/mock';
 
 export default function HomePage() {
@@ -12,21 +13,37 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero секция */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto max-w-4xl text-center">
-          <div className="bg-gray-200 rounded-3xl p-12 md:p-16">
-            <h1 className="text-4xl md:text-6xl font-bold text-holo-text mb-6">
-              Коллекция голографических карточек
-            </h1>
-            <p className="text-xl text-holo-text-secondary mb-8 max-w-2xl mx-auto">
-              Откройте для себя уникальные голографические карточки Marvel и Cars.
-              Высочайшее качество, оригинальная продукция, быстрая доставка.
-            </p>
-            <Button asChild size="lg">
-              <Link href="/catalog">
-                Перейти в каталог
-              </Link>
-            </Button>
+      <section className="py-16 px-6">
+        <div className="container mx-auto max-w-7xl">
+          <div className="relative overflow-hidden rounded-[3rem] p-16 md:p-24" style={{ height: '600px' }}>
+            <div className="absolute inset-0">
+              <PrismaticBurst
+                animationType="rotate3d"
+                intensity={2}
+                speed={0.5}
+                distort={1.0}
+                paused={false}
+                offset={{ x: 0, y: 0 }}
+                hoverDampness={0.25}
+                rayCount={24}
+                mixBlendMode="lighten"
+                colors={['#ff007a', '#4d3dff', '#ffffff']}
+              />
+            </div>
+            <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 drop-shadow-lg">
+                Коллекция голографических карточек
+              </h1>
+              <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto drop-shadow-md">
+                Откройте для себя уникальные голографические карточки Marvel и Cars.
+                Высочайшее качество, оригинальная продукция, быстрая доставка.
+              </p>
+              <Button asChild size="lg" className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm">
+                <Link href="/catalog">
+                  Перейти в каталог
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
