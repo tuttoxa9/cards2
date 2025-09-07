@@ -177,7 +177,7 @@ void main(){
     fragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
 }`;
 
-const hexToRgb01 = hex => {
+const hexToRgb01 = (hex: string): number[] => {
   let h = hex.trim();
   if (h.startsWith('#')) h = h.slice(1);
   if (h.length === 3) {
@@ -194,13 +194,26 @@ const hexToRgb01 = hex => {
   return [r, g, b];
 };
 
-const toPx = v => {
+const toPx = (v: number | string | null | undefined): number => {
   if (v == null) return 0;
   if (typeof v === 'number') return v;
   const s = String(v).trim();
   const num = parseFloat(s.replace('px', ''));
   return isNaN(num) ? 0 : num;
 };
+
+interface PrismaticBurstProps {
+  intensity?: number;
+  speed?: number;
+  animationType?: 'rotate' | 'rotate3d' | 'hover';
+  colors?: string[];
+  distort?: number;
+  paused?: boolean;
+  offset?: { x: number; y: number };
+  hoverDampness?: number;
+  rayCount?: number;
+  mixBlendMode?: string;
+}
 
 const PrismaticBurst = ({
   intensity = 2,
@@ -213,18 +226,18 @@ const PrismaticBurst = ({
   hoverDampness = 0,
   rayCount,
   mixBlendMode = 'lighten'
-}) => {
-  const containerRef = useRef(null);
-  const programRef = useRef(null);
-  const rendererRef = useRef(null);
-  const mouseTargetRef = useRef([0.5, 0.5]);
-  const mouseSmoothRef = useRef([0.5, 0.5]);
-  const pausedRef = useRef(paused);
-  const gradTexRef = useRef(null);
-  const hoverDampRef = useRef(hoverDampness);
-  const isVisibleRef = useRef(true);
-  const meshRef = useRef(null);
-  const triRef = useRef(null);
+}: PrismaticBurstProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const programRef = useRef<any>(null);
+  const rendererRef = useRef<any>(null);
+  const mouseTargetRef = useRef<number[]>([0.5, 0.5]);
+  const mouseSmoothRef = useRef<number[]>([0.5, 0.5]);
+  const pausedRef = useRef<boolean>(paused);
+  const gradTexRef = useRef<any>(null);
+  const hoverDampRef = useRef<number>(hoverDampness);
+  const isVisibleRef = useRef<boolean>(true);
+  const meshRef = useRef<any>(null);
+  const triRef = useRef<any>(null);
 
   useEffect(() => {
     pausedRef.current = paused;
@@ -311,7 +324,7 @@ const PrismaticBurst = ({
     }
     resize();
 
-    const onPointer = e => {
+    const onPointer = (e: PointerEvent) => {
       const rect = container.getBoundingClientRect();
       const x = (e.clientX - rect.left) / Math.max(rect.width, 1);
       const y = (e.clientY - rect.top) / Math.max(rect.height, 1);
@@ -322,7 +335,7 @@ const PrismaticBurst = ({
     let io = null;
     if ('IntersectionObserver' in window) {
       io = new IntersectionObserver(
-        entries => {
+        (entries: IntersectionObserverEntry[]) => {
           if (entries[0]) {
             isVisibleRef.current = entries[0].isIntersecting;
           }
@@ -339,7 +352,7 @@ const PrismaticBurst = ({
     let last = performance.now();
     let accumTime = 0;
 
-    const update = now => {
+    const update = (now: number) => {
       const dt = Math.max(0, now - last) * 0.001;
       last = now;
       const visible = isVisibleRef.current && !document.hidden;
